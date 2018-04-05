@@ -66,7 +66,7 @@ It then displays the results to a console log and appends it to a log.txt file.
 
 	 ![Image of file read results](/images/dowhatitsaysresults.jpg)
 
-5. 'node liri.js log.txt'
+5. `node liri.js log.txt`
 
 	* In addition to logging the data to your terminal/bash window, the data is outputted to a .txt file called `log.txt`.
 
