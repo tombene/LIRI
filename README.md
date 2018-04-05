@@ -38,6 +38,8 @@ It takes in the following commands:
 
     * `do-what-it-says`
 
+It then displays the results to a console log and appends it to a log.txt file.
+
 ### What does each command do
 
 1. `node liri.js my-tweets`
