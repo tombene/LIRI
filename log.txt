@@ -1,0 +1,27 @@
+
+//****New Log Thu Apr 05 2018 15:39:51 GMT-0600 (Mountain Daylight Time)****//
+Tweet Date: Thu Apr 05 20:47:38 +0000 2018
+Tweet: Just making sure that all my tweets will be seen by the api
+Tweet Date: Thu Apr 05 20:47:14 +0000 2018
+Tweet: Success! Looks like all is good!!
+Tweet Date: Thu Apr 05 20:47:00 +0000 2018
+Tweet: I am testing a twitter api to see if it can read my tweets
+//****New Log Thu Apr 05 2018 15:39:58 GMT-0600 (Mountain Daylight Time)****//
+Artist: Aerosmith
+Song: Walk This Way
+Preview Link: https://p.scdn.co/mp3-preview/f744fafea7f807dd79503249f4238a21393daf8f?cid=aa149636ea724773a6763a86fe353382
+Album: Toys In The Attic
+//****New Log Thu Apr 05 2018 15:40:03 GMT-0600 (Mountain Daylight Time)****//
+Title: The Princess Bride
+Year: 1987
+IMDB Rating: 8.1
+Rotton Tomatoes Rating: 97%
+Country Produced: USA
+Language: English
+Plot: While home sick in bed, a young boy's grandfather reads him a story called The Princess Bride.
+Actors: Cary Elwes, Mandy Patinkin, Chris Sarandon, Christopher Guest
+//****New Log Thu Apr 05 2018 15:40:09 GMT-0600 (Mountain Daylight Time)****//
+Artist: Backstreet Boys
+Song: I Want It That Way
+Preview Link: https://p.scdn.co/mp3-preview/e72a05dc3f69c891e3390c3ceaa77fad02f6b5f6?cid=aa149636ea724773a6763a86fe353382
+Album: The Hits--Chapter One

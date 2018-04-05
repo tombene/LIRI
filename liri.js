@@ -1,11 +1,15 @@
 require("dotenv").config();
 var request = require("request");
+var Twitter = require("twitter");
+var Spotify = require("node-spotify-api");
+var keys = require("./keys");
+
 var spotify = new Spotify(keys.spotify);
 var client = new Twitter(keys.twitter);
-//console.log(client);
+
 var args = process.argv;
 var liriCommand = args[2];
-//var liriInput = args[3];
+
 var liriInput = args.slice();
 liriInput.splice(0, 3);
 var liriString = '';
@@ -16,7 +20,7 @@ for (var i = 0; i < liriInput.length; i++) {
 		liriString += " " + liriInput[i];
 	}
 }
-console.log(liriCommand);
+
 //direct the commands
 function switchDirectory() {
 	switch (liriCommand) {
@@ -42,25 +46,62 @@ switchDirectory();
 
 //Twitter API
 function twitterApiCall() {
-	var twitterUrl = "https://api.twitter.com/1.1/statuses/home_timeline.json";
-	request(twitterUrl,
-		function (error, response, body) {
-
+	let params = "count=1";
+	client.get("statuses/home_timeline",
+		function (error, response, data) {
+		
+			if(error){
+				console.log(error);
+			}
+			
+			if(data.statusCode === 200){
+				var json = JSON.parse(data.body);
+				//verify that user has tweets
+				let displayStr = '';
+				if(json.length === 0){
+						displayStr = "No Tweets Today. :o(";
+						displayThenAppendLog(displayStr);
+				}else{
+					for(var i = 0; i < json.length; i++){
+						if(i===0){
+							displayStr = "Tweet Date: " + json[i].created_at + "\nTweet: " + json[i].text;
+						}else{
+							displayStr += "\nTweet Date: " + json[i].created_at + "\nTweet: " + json[i].text;
+						}
+					}
+					displayThenAppendLog(displayStr);
+				}
+			}
+			
 		});
 }
 
 //Spotify API
 function spotifyApiCall() {
-	var spotifyUrl = "";
+	var spotifyParams = "";
 	if (liriString === '') {
-		spotifyUrl = "";
+		spotifyParams = "The Sign Ace Of Base";
 	} else {
-		spotifyUrl = "";
+		spotifyParams = liriString;
 	}
-
-	request('GET',spotify, spotiryUrl,
-		function (error, response, body) {
-
+	
+	spotify.search({type: 'track',query: spotifyParams,limit: 1},
+		function (error, data) {
+			if(error){
+				return console.log(error);
+			}
+			var artists = '';
+			//Get all the artists if more than one
+			for(let i=0;i<data.tracks.items[0].artists.length;i++){
+				if(i===0){
+					artists = data.tracks.items[0].artists[i].name;
+				}else{
+					artists += ", " + data.tracks.items[0].artists[i].name; 
+				}
+			}
+			// console.log(data.tracks.items[0]);
+			let displayStr = "Artist: " + artists + "\nSong: " + data.tracks.items[0].name + "\nPreview Link: " + data.tracks.items[0].preview_url + "\nAlbum: " + data.tracks.items[0].album.name;
+			displayThenAppendLog(displayStr);
 		});
 }
 
@@ -81,23 +122,34 @@ function omdbApiCall() {
 			}
 			var omdbJson = JSON.parse(body);
 			if (response.statusCode === 200) {
-				console.log("Title: " + omdbJson.Title + "\nYear: " + omdbJson.Year + "\nIMDB Rating: " + omdbJson.imdbRating + "\nRotton Tomatoes Rating: " + omdbJson.Ratings[1].Value + "\nCountry Produced: " + omdbJson.Country + "\nLanguage: " + omdbJson.Language + "\nPlot: " + omdbJson.Plot + "\nActors: " + omdbJson.Actors);
+				let displayStr = "Title: " + omdbJson.Title + "\nYear: " + omdbJson.Year + "\nIMDB Rating: " + omdbJson.imdbRating + "\nRotton Tomatoes Rating: " + omdbJson.Ratings[1].Value + "\nCountry Produced: " + omdbJson.Country + "\nLanguage: " + omdbJson.Language + "\nPlot: " + omdbJson.Plot + "\nActors: " + omdbJson.Actors;
+				displayThenAppendLog(displayStr);
 			}
 		});
 }
 
-
 function doWhatItSays() {
-	var fs = require("fs")
+	let fs = require("fs");
 
 	fs.readFile("random.txt", "utf8", function (error, data) {
 		if (error) {
 			return console.log(error);
 		}
 		console.log(data.trim());
-		var dataArr = data.split(",");
+		let dataArr = data.split(",");
 		liriCommand = dataArr[0];
 		liriString = dataArr[1];
 		switchDirectory();
+	});
+}
+
+function displayThenAppendLog(data){
+	let fs = require("fs");
+	let prefix = "\n//****New Log " + Date() + "****//\n";
+	fs.appendFile("log.txt", prefix + data, function(error){
+		if(error){
+			return console.log(error);
+		}
+		console.log(data);
 	});
 }
